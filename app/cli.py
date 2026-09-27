@@ -23,7 +23,13 @@ def main() -> None:
         if msg.lower() in {"quit", "exit"}:
             break
         if msg:
-            print(f"\nBot: {bot.handle(msg).text}\n")
+            try:
+                reply = bot.handle(msg)
+                print(f"\nBot: {reply.text}\n")
+                if reply.usage:
+                    print(f"[usage] {reply.usage}\n")
+            except Exception as e:
+                print(f"\nBot: Sorry, something went wrong. Please try again. (error: {e})\n")
 
 
 if __name__ == "__main__":

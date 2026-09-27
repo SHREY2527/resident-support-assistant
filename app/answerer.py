@@ -92,17 +92,18 @@ class Answerer:
         quotes = [norm(e.quote) for e in out.evidence]
         return bool(quotes) and all(len(q) >= 3 and q in haystack for q in quotes)
 
-    def _judge(self, question: str, out: AnswerOut, today: date) -> bool:
+    def _judge(self, question: str, out: AnswerOut, today: date, label: str = "judge") -> bool:
         contents = (f"QUESTION: {question}\nANSWER: {out.answer}\nEVIDENCE:\n" +
                     "\n".join(f"- {e.quote}" for e in out.evidence))
         return self.llm.generate(self.judge_model, JUDGE_SYSTEM.format(today=today.isoformat()),
-                                 contents, JudgeOut).supported
+                                 contents, JudgeOut, label=label).supported
 
     def answer(self, question: str, history: str, today: date) -> Answer:
         contents = f"RECENT CONVERSATION:\n{history or '(none)'}\n\nUSER QUESTION (untrusted):\n<<<\n{question}\n>>>"
         system = self._system(today)
         for attempt in range(2):
-            out = self.llm.generate(self.model, system, contents, AnswerOut)
+            label = "answer" if attempt == 0 else "answer_retry"
+            out = self.llm.generate(self.model, system, contents, AnswerOut, label=label)
             if out.coverage == Coverage.none:
                 return Answer(IDK, False)
             if self._quotes_valid(out):
@@ -111,7 +112,18 @@ class Answerer:
         else:
             return Answer(IDK, False)
         if self.use_judge and not self._judge(question, out, today):
-            return Answer(IDK, False)
+            # A veto can mean the answer combined several facts (e.g. a comparison) but only
+            # quoted evidence for some of them. Give the model one chance to back every fact
+            # with a quote before falling back to IDK, instead of discarding a correct answer.
+            contents += ("\n\n(Your answer stated more than the evidence backed. Re-answer with a "
+                         "verbatim quote for EVERY fact you state, or use coverage=none if something "
+                         "is not in the sources.)")
+            retry = self.llm.generate(self.model, system, contents, AnswerOut, label="answer_retry")
+            if retry.coverage == Coverage.none or not self._quotes_valid(retry):
+                return Answer(IDK, False)
+            if not self._judge(question, retry, today, label="judge_retry"):
+                return Answer(IDK, False)
+            out = retry
         text = out.answer.strip()
         if out.coverage == Coverage.partial and IDK not in text:
             text += f"\n{IDK}"

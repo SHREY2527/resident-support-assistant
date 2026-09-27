@@ -7,7 +7,12 @@ from .actions import SLOTS, Draft, ask_missing, execute, parse_date
 from .answerer import Answerer, norm
 from .data_loader import Corpus
 from .llm import LLM
-from .router import Intent, Router
+from .router import Intent, Router, RouterOut
+
+# A bare, unambiguous yes/no is resolved in code rather than left to the router, which has
+# occasionally misclassified a lone "yes" (with nothing pending) as an unrelated intent.
+_BARE_YES = {"yes", "y", "yep", "yeah", "yup", "confirm", "confirmed"}
+_BARE_NO = {"no", "n", "nope", "nah"}
 
 CAPABILITIES = ("I can help with room listings and prices, house rules and policies, your own support "
                 "tickets, and raising maintenance or other requests.")
@@ -27,6 +32,7 @@ class Reply:
     text: str
     kind: str           # answer | idk | refusal | ask | summary | done | info
     intent: str = ""
+    usage: str = ""      # token/cost summary for this reply and the running conversation total
 
 
 class Bot:
@@ -82,8 +88,17 @@ class Bot:
 
     # ---- main entry -----------------------------------------------------
     def handle(self, msg: str) -> Reply:
+        usage = getattr(self.llm, "usage", None)
+        if usage:
+            usage.reset_turn()
         self.user_texts.append(msg)
-        r = self.router.route(msg, self._history(), self._pending_state(), self.today)
+        bare = re.sub(r"[^a-z]", "", msg.strip().lower())
+        if bare in _BARE_YES:
+            r = RouterOut(intent=Intent.confirm)
+        elif bare in _BARE_NO:
+            r = RouterOut(intent=Intent.deny)
+        else:
+            r = self.router.route(msg, self._history(), self._pending_state(), self.today)
         reply = self._dispatch(msg, r)
         # pending-action bookkeeping
         if self.pending and r.intent not in (Intent.create_ticket, Intent.cancel_booking, Intent.confirm):
@@ -91,7 +106,10 @@ class Bot:
             if self.pending.idle > config.PENDING_MAX_IDLE:
                 self.pending = None
                 reply.text += "\n\n(I've dropped your earlier unfinished request; nothing was submitted.)"
-        return self._finish(msg, reply)
+        reply = self._finish(msg, reply)
+        if usage:
+            reply.usage = usage.log_turn(self.rid, msg, reply.text)
+        return reply
 
     def _dispatch(self, msg: str, r) -> Reply:
         intent = r.intent

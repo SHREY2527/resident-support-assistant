@@ -14,7 +14,7 @@ class FakeLLM:
         self.routes, self.answer, self.supported = list(routes), answer, supported
         self.systems: list[str] = []
 
-    def generate(self, model, system, contents, schema):
+    def generate(self, model, system, contents, schema, label=""):
         self.systems.append(system)
         if schema is RouterOut:
             return self.routes.pop(0)

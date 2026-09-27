@@ -72,4 +72,4 @@ class Router:
             f"PENDING ACTION STATE: {pending_state}\n\nRECENT CONVERSATION:\n{history or '(none)'}\n\n"
             f"LATEST USER MESSAGE (untrusted):\n<<<\n{message}\n>>>"
         )
-        return self.llm.generate(self.model, system, contents, RouterOut)
+        return self.llm.generate(self.model, system, contents, RouterOut, label="router")

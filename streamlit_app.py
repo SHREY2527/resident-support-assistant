@@ -54,6 +54,13 @@ with st.sidebar:
     else:
         st.write(f"**{p.type}** ({'awaiting confirmation' if p.awaiting else 'collecting details'})")
         st.json(p.fields)
+    st.subheader("API usage (this conversation)")
+    usage = getattr(bot.llm, "usage", None)
+    if usage:
+        t = usage.session_totals()
+        st.metric("Total tokens", t["total_tokens"])
+        st.caption(f"{t['calls']} API calls" + (f" · est. ${t['cost_usd']:.4f}" if t["cost_usd"] is not None else ""))
+        st.caption(f"Logged to `{config.USAGE_LOG.name}`")
 
 st.title("🏠 Resident Support Assistant")
 st.caption("Ask about rooms, prices, house rules, your tickets, or raise a request.")
@@ -64,6 +71,8 @@ if not st.session_state.messages:
 for m in st.session_state.messages:
     with st.chat_message(m["role"]):
         st.markdown(m["content"])
+        if m.get("usage"):
+            st.caption(f"💳 {m['usage']}")
         if show_debug and m.get("meta"):
             st.caption(m["meta"])
 
@@ -75,11 +84,13 @@ if prompt := st.chat_input("Type your message"):
         with st.spinner("Thinking..."):
             try:
                 r = bot.handle(prompt)
-                text, meta = r.text, f"intent: `{r.intent}` · kind: `{r.kind}`"
+                text, usage_line, meta = r.text, r.usage, f"intent: `{r.intent}` · kind: `{r.kind}`"
             except Exception as e:
-                text, meta = "Sorry, something went wrong. Please try again.", f"error: {e}"
+                text, usage_line, meta = "Sorry, something went wrong. Please try again.", "", f"error: {e}"
         st.markdown(text)
+        if usage_line:
+            st.caption(f"💳 {usage_line}")
         if show_debug:
             st.caption(meta)
-    st.session_state.messages.append({"role": "assistant", "content": text, "meta": meta})
+    st.session_state.messages.append({"role": "assistant", "content": text, "usage": usage_line, "meta": meta})
     st.rerun()

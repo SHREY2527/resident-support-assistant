@@ -1,6 +1,9 @@
 .venv/
+house_env/
 .env
 __pycache__/
 .pytest_cache/
 tickets_runtime.json
+usage.log
+tests/regression_results.json
 .DS_Store
