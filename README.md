@@ -12,14 +12,12 @@ own.
 ## Contents
 
 - [At a glance](#at-a-glance)
-- [Architecture](#architecture)
 - [The four guardrails](#the-four-guardrails)
 - [Quickstart](#quickstart)
 - [Testing](#testing)
 - [Resident showcase](#resident-showcase)
 - [API usage / cost tracking](#api-usage--cost-tracking)
 - [Project layout](#project-layout)
-- [Status](#status)
 
 ## At a glance
 
@@ -31,9 +29,7 @@ own.
 | **Resident showcase** | all 18 sample residents, each in their own real conversation |
 | **Known limitations** | documented, not hidden — see [`GUARDRAILS.md`](GUARDRAILS.md) and the showcase below |
 
-## Architecture
-
-<img src="docs/architecture.svg" alt="Request flow: router classifies intent, then either a fixed code refusal, a grounded answerer with a quote check and judge, or a confirm-before-acting flow, all passing through an output guard" width="720">
+## The four guardrails
 
 The router (a cheap model) classifies each message and extracts slots. From there:
 - **Scope, injection, and privacy violations** get a fixed, code-written refusal — the answering
@@ -46,8 +42,6 @@ The router (a cheap model) classifies each message and extracts slots. From ther
   executor is plain code the model can never call directly.
 - **Every reply**, regardless of path, passes through an output guard that blocks any accidental
   mention of another resident's ID.
-
-## The four guardrails
 
 | Guardrail | Protects against | Enforced by |
 |---|---|---|
@@ -132,13 +126,7 @@ tests/
   test_guardrails_live.py  end-to-end guardrail tests against the real model
   regression_suite.py      realistic multi-turn scenarios — see REGRESSION_REPORT.md
   resident_showcase.py     generates resident_showcase.json — see above
-docs/architecture.svg      the diagram above
 ```
 
 New tickets are written to `tickets_runtime.json` (gitignored, created on first write); the sample
 data in `data/` is never modified.
-
-## Status
-
-See [`TASKS.md`](TASKS.md) for a live checklist of what's done against the assignment brief, and
-what is still open or blocked.
