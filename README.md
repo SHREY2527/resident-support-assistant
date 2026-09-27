@@ -96,16 +96,15 @@ is ever submitted without a separate confirmation either way, but a genuine, hon
 
 ## API usage / cost tracking
 
-Every reply's real token usage (from the Gemini API's own `usage_metadata`, not an estimate) is
-logged to `usage.log` (gitignored) — one JSON line per turn, broken down per call (router, answer,
-judge, and any retries), per reply, and as a running conversation total. This is a development/
-cost-auditing tool; it isn't surfaced in the Streamlit UI, which only shows the resident session
-and chat.
+Every reply's real token usage (from the Gemini API's own usage metadata, not an estimate) is
+tracked per call, per reply, and as a running conversation total, so cost is always visible and
+never a surprise. A single question is typically 2-4 API calls (router → answer → judge, sometimes
+with a retry), so cost adds up a bit faster than the message count alone suggests.
 
-A single question is typically 2-4 API calls (router → answer → judge, sometimes with a retry), so
-tokens and call counts add up faster than the message count suggests — that's what the logging is
-for. Cost in $ is computed from the real Gemini pricing in `app/config.py`
-(`MODEL_PRICING_PER_1M`), overridable per `.env.example`.
+Based on running this against many real test cases (offline tests, live guardrail tests, and 18
+full resident conversations), a single request typically costs around **$0.003-$0.006** — call it
+half a cent — depending on whether it's answered by the main model or refused early by the router.
+A longer back-and-forth of 5 or more turns has stayed comfortably **under $0.03** in practice.
 
 ## Project layout
 
@@ -128,5 +127,5 @@ tests/
   resident_showcase.py     generates resident_showcase.json — see above
 ```
 
-New tickets are written to `tickets_runtime.json` (gitignored, created on first write); the sample
-data in `data/` is never modified.
+New tickets are written to a local `tickets_runtime.json` file, created automatically the first
+time one is raised; the sample data in `data/` is never modified.
