@@ -1,14 +1,63 @@
 # Resident Support Assistant
 
-A Python chatbot for a co-living company's residents: room listings and prices, house rules and
-policies, a resident's own support tickets, and raising maintenance requests or booking
-cancellations. Built as a fixed pipeline (router → grounded answerer → judge → action state
-machine), not a free-form agent, so the safety guardrails live in code, not just in prompts.
+A support chatbot for a co-living company's residents — bookings, maintenance, billing, and house
+rules — built around one question: **how do you stop an LLM from making things up or doing things
+it shouldn't?**
 
-See [GUARDRAILS.md](GUARDRAILS.md) for what each guardrail protects against, how it's implemented,
-and its test cases. See [REGRESSION_REPORT.md](REGRESSION_REPORT.md) for a realistic multi-turn
-regression run against the live model, and [TASKS.md](TASKS.md) for a checklist of what's done
-against the assignment brief.
+It's a fixed pipeline (router → grounded answerer → judge → action state machine), not a free-form
+agent. Every safety-critical decision — confirmation before an action, resident-data isolation,
+the "I don't know" fallback — is enforced in **code**, never left to a prompt to get right on its
+own.
+
+## Contents
+
+- [At a glance](#at-a-glance)
+- [Architecture](#architecture)
+- [The four guardrails](#the-four-guardrails)
+- [Quickstart](#quickstart)
+- [Testing](#testing)
+- [Resident showcase](#resident-showcase)
+- [API usage / cost tracking](#api-usage--cost-tracking)
+- [Project layout](#project-layout)
+- [Status](#status)
+
+## At a glance
+
+| | |
+|---|---|
+| **Offline unit tests** | 14/14 passing |
+| **Live guardrail tests** (real Gemini calls) | 45/45 passing |
+| **Regression suite** — realistic, multi-turn, casually-worded scenarios | 70/72 across 2 runs |
+| **Resident showcase** | all 18 sample residents, each in their own real conversation |
+| **Known limitations** | documented, not hidden — see [`GUARDRAILS.md`](GUARDRAILS.md) and the showcase below |
+
+## Architecture
+
+<img src="docs/architecture.svg" alt="Request flow: router classifies intent, then either a fixed code refusal, a grounded answerer with a quote check and judge, or a confirm-before-acting flow, all passing through an output guard" width="720">
+
+The router (a cheap model) classifies each message and extracts slots. From there:
+- **Scope, injection, and privacy violations** get a fixed, code-written refusal — the answering
+  model is never even called.
+- **Info questions** go to the answerer, which must back every claim with a verbatim quote from
+  the data; code checks the quote actually exists, and a second model judges whether the answer is
+  actually supported before it's allowed through.
+- **Actions** (raising a ticket, cancelling a booking) are collected turn by turn and always shown
+  as a summary before anything happens — only a separate, later "yes" executes it, and the
+  executor is plain code the model can never call directly.
+- **Every reply**, regardless of path, passes through an output guard that blocks any accidental
+  mention of another resident's ID.
+
+## The four guardrails
+
+| Guardrail | Protects against | Enforced by |
+|---|---|---|
+| 1. Scope | Off-topic requests, persona changes, legal/financial advice | Router classification → fixed refusal, answering model never called |
+| 2. Groundedness | Invented prices, policies, dates, availability | Verbatim quote requirement, checked in code, plus a judge pass |
+| 3. Injection & privacy | Prompt injection, "ignore your instructions," another resident's data | Least-data design (only the caller's own tickets ever enter a prompt) + an output guard |
+| 4. Action confirmation | State changes the resident didn't clearly approve | A summary is always shown first; only code executes, only after a separate confirmation |
+
+Full detail — implementation, test cases, and honestly-listed limitations for each — is in
+[`GUARDRAILS.md`](GUARDRAILS.md).
 
 ## Quickstart
 
@@ -34,23 +83,8 @@ python -m tests.regression_suite 2        # realistic multi-turn scenarios, run 
 python -m tests.resident_showcase          # a real conversation for every resident in the sample data (needs GEMINI_API_KEY)
 ```
 
-## Layout
-
-- `app/router.py` — intent classification and slot extraction (cheap model)
-- `app/answerer.py` — grounded answer generation with evidence-quote verification and a judge pass
-- `app/actions.py` + `app/bot.py` — the confirmation state machine for tickets and cancellations
-- `app/data_loader.py` — loads `data/` at runtime and scopes ticket data per resident
-- `app/llm.py` — the Gemini client (structured JSON output via a Pydantic schema)
-- `app/usage.py` — real per-call token/cost tracking (thread-safe; see below)
-- `app/cli.py` / `streamlit_app.py` — the two entry points
-- `data/` — sample listings, house rules and tickets (synthetic)
-- `tests/test_state_machine.py` — offline unit tests (no API calls)
-- `tests/test_guardrails_live.py` — end-to-end guardrail tests against the real model
-- `tests/regression_suite.py` — realistic multi-turn scenarios; see `REGRESSION_REPORT.md`
-- `tests/resident_showcase.py` — generates `resident_showcase.json`; see below
-
-New tickets are written to `tickets_runtime.json` (gitignored, created on first write); the sample
-data in `data/` is never modified.
+See [`REGRESSION_REPORT.md`](REGRESSION_REPORT.md) for what the regression suite found, including
+two real bugs it caught and how they were fixed and re-verified.
 
 ## Resident showcase
 
@@ -61,20 +95,50 @@ out of scope, one attempts a pre-authorised confirmation). The output (`resident
 committed so it can be viewed without needing an API key, and is rendered in the Streamlit app's
 **"Resident showcase"** tab, filterable by resident and category.
 
-It also honestly surfaces a real, found limitation rather than hiding it: two residents' messages
-were misclassified by the router (a status-check on an existing ticket read as a request to open a
-new one). That's flagged directly in the UI and in `GUARDRAILS.md` — not a safety issue, since
-nothing is ever submitted without a separate confirmation either way, but a genuine known gap.
+It also surfaces a real, found limitation rather than hiding it: two residents' messages were
+misclassified by the router (a status-check on an existing ticket read as a request to open a new
+one). That's flagged directly in the UI and in `GUARDRAILS.md` — not a safety issue, since nothing
+is ever submitted without a separate confirmation either way, but a genuine, honestly-documented gap.
 
 ## API usage / cost tracking
 
 Every reply's real token usage (from the Gemini API's own `usage_metadata`, not an estimate) is
 logged to `usage.log` (gitignored) — one JSON line per turn, broken down per call (router, answer,
-judge, and any retries), per reply, and as a running conversation total. This is written for
-development/cost-auditing use; it isn't surfaced in the Streamlit UI, which only shows the resident
-session and chat.
+judge, and any retries), per reply, and as a running conversation total. This is a development/
+cost-auditing tool; it isn't surfaced in the Streamlit UI, which only shows the resident session
+and chat.
 
 A single question is typically 2-4 API calls (router → answer → judge, sometimes with a retry), so
 tokens and call counts add up faster than the message count suggests — that's what the logging is
 for. Cost in $ is computed from the real Gemini pricing in `app/config.py`
 (`MODEL_PRICING_PER_1M`), overridable per `.env.example`.
+
+## Project layout
+
+```
+app/
+  router.py       intent classification and slot extraction (cheap model)
+  answerer.py      grounded answer generation with evidence-quote verification and a judge pass
+  actions.py       the confirmation state machine's rules (required fields, executor)
+  bot.py           ties router → answerer/actions → output guard together
+  data_loader.py   loads data/ at runtime and scopes ticket data per resident
+  llm.py           the Gemini client (structured JSON output via a Pydantic schema)
+  usage.py         real per-call token/cost tracking (thread-safe)
+  cli.py           CLI entry point
+streamlit_app.py   web UI entry point (Chat + Resident showcase tabs)
+data/              sample listings, house rules and tickets (synthetic)
+tests/
+  test_state_machine.py    offline unit tests (no API calls)
+  test_guardrails_live.py  end-to-end guardrail tests against the real model
+  regression_suite.py      realistic multi-turn scenarios — see REGRESSION_REPORT.md
+  resident_showcase.py     generates resident_showcase.json — see above
+docs/architecture.svg      the diagram above
+```
+
+New tickets are written to `tickets_runtime.json` (gitignored, created on first write); the sample
+data in `data/` is never modified.
+
+## Status
+
+See [`TASKS.md`](TASKS.md) for a live checklist of what's done against the assignment brief, and
+what is still open or blocked.

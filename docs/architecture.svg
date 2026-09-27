@@ -1,0 +1,105 @@
+<svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="900" height="700" fill="#ffffff"/>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#6b6b63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="34" text-anchor="middle" font-size="18" font-weight="600" fill="#1a1a17">Resident Support Assistant — request flow</text>
+  <text x="450" y="54" text-anchor="middle" font-size="12" fill="#6b6b63">Guardrails live in code, not just prompts — the LLM proposes, code decides</text>
+
+  <!-- Input -->
+  <rect x="320" y="76" width="260" height="44" rx="6" fill="#f1efe8" stroke="#b4b2a9"/>
+  <text x="450" y="103" text-anchor="middle" font-size="13" fill="#2c2c2a">Resident message</text>
+  <line x1="450" y1="120" x2="450" y2="148" stroke="#6b6b63" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+  <!-- Router -->
+  <rect x="240" y="150" width="420" height="58" rx="6" fill="#cecbf6" stroke="#534ab7"/>
+  <text x="450" y="174" text-anchor="middle" font-size="13" font-weight="600" fill="#26215c">Router (cheap model)</text>
+  <text x="450" y="194" text-anchor="middle" font-size="11" fill="#3c3489">Intent + slots. Identity comes from the session, never from chat text.</text>
+
+  <line x1="330" y1="208" x2="130" y2="240" stroke="#6b6b63" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="450" y1="208" x2="450" y2="240" stroke="#6b6b63" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="570" y1="208" x2="770" y2="240" stroke="#6b6b63" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+  <!-- Left column: refusal paths -->
+  <rect x="30" y="242" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="130" y="262" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Out of scope / advice</text>
+  <text x="130" y="278" text-anchor="middle" font-size="10" fill="#085041">Guardrail 1 — fixed decline</text>
+
+  <rect x="30" y="310" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="130" y="330" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Injection / privacy</text>
+  <text x="130" y="346" text-anchor="middle" font-size="10" fill="#085041">Guardrail 3 — fixed refusal</text>
+
+  <rect x="30" y="378" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="130" y="398" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Personal-info change</text>
+  <text x="130" y="414" text-anchor="middle" font-size="10" fill="#085041">Guardrail 4 — always refused</text>
+
+  <line x1="130" y1="294" x2="130" y2="310" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="130" y1="362" x2="130" y2="378" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- Middle column: info_question / groundedness -->
+  <rect x="350" y="242" width="200" height="52" rx="6" fill="#f1efe8" stroke="#b4b2a9"/>
+  <text x="450" y="262" text-anchor="middle" font-size="12" font-weight="600" fill="#2c2c2a">Info question</text>
+  <text x="450" y="278" text-anchor="middle" font-size="10" fill="#5f5e5a">Only this resident's own tickets</text>
+
+  <rect x="350" y="310" width="200" height="52" rx="6" fill="#cecbf6" stroke="#534ab7"/>
+  <text x="450" y="330" text-anchor="middle" font-size="12" font-weight="600" fill="#26215c">Answerer (main model)</text>
+  <text x="450" y="346" text-anchor="middle" font-size="10" fill="#3c3489">Must quote evidence verbatim</text>
+
+  <rect x="350" y="378" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="450" y="398" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Quote check (code)</text>
+  <text x="450" y="414" text-anchor="middle" font-size="10" fill="#085041">Fake/missing quote → IDK</text>
+
+  <rect x="350" y="446" width="200" height="52" rx="6" fill="#cecbf6" stroke="#534ab7"/>
+  <text x="450" y="466" text-anchor="middle" font-size="12" font-weight="600" fill="#26215c">Judge (cheap model)</text>
+  <text x="450" y="482" text-anchor="middle" font-size="10" fill="#3c3489">Unsupported claim → IDK, retry once</text>
+
+  <line x1="450" y1="294" x2="450" y2="310" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="450" y1="362" x2="450" y2="378" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="450" y1="430" x2="450" y2="446" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- Right column: actions / confirmation -->
+  <rect x="670" y="242" width="200" height="52" rx="6" fill="#f1efe8" stroke="#b4b2a9"/>
+  <text x="770" y="262" text-anchor="middle" font-size="12" font-weight="600" fill="#2c2c2a">Action request</text>
+  <text x="770" y="278" text-anchor="middle" font-size="10" fill="#5f5e5a">Ticket or cancellation</text>
+
+  <rect x="670" y="310" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="770" y="330" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Collect details (code)</text>
+  <text x="770" y="346" text-anchor="middle" font-size="10" fill="#085041">Missing fields are asked for</text>
+
+  <rect x="670" y="378" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="770" y="398" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Summary, wait for "yes"</text>
+  <text x="770" y="414" text-anchor="middle" font-size="10" fill="#085041">Same-message confirm ignored</text>
+
+  <rect x="670" y="446" width="200" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="770" y="466" text-anchor="middle" font-size="12" font-weight="600" fill="#04342c">Write ticket (code)</text>
+  <text x="770" y="482" text-anchor="middle" font-size="10" fill="#085041">Only after a later, separate "yes"</text>
+
+  <line x1="770" y1="294" x2="770" y2="310" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="770" y1="362" x2="770" y2="378" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="770" y1="430" x2="770" y2="446" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- Converge to output guard -->
+  <line x1="130" y1="430" x2="130" y2="560" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="450" y1="498" x2="450" y2="560" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="770" y1="498" x2="770" y2="560" stroke="#6b6b63" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="562" width="840" height="52" rx="6" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="450" y="584" text-anchor="middle" font-size="13" font-weight="600" fill="#04342c">Output guard (code)</text>
+  <text x="450" y="602" text-anchor="middle" font-size="11" fill="#085041">Replaces any reply that contains another resident's ID, computed at runtime</text>
+
+  <line x1="450" y1="614" x2="450" y2="638" stroke="#6b6b63" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <rect x="340" y="640" width="220" height="42" rx="6" fill="#f1efe8" stroke="#b4b2a9"/>
+  <text x="450" y="666" text-anchor="middle" font-size="13" fill="#2c2c2a">Reply to resident</text>
+
+  <!-- Legend -->
+  <rect x="30" y="80" width="12" height="12" fill="#f1efe8" stroke="#b4b2a9"/>
+  <text x="48" y="90" font-size="10" fill="#5f5e5a">Input / output / data</text>
+  <rect x="200" y="80" width="12" height="12" fill="#cecbf6" stroke="#534ab7"/>
+  <text x="218" y="90" font-size="10" fill="#5f5e5a">LLM call</text>
+  <rect x="320" y="80" width="12" height="12" fill="#9fe1cb" stroke="#0f6e56"/>
+  <text x="338" y="90" font-size="10" fill="#5f5e5a">Enforced in code</text>
+</svg>
