@@ -1,0 +1,697 @@
+{
+ "generated_at": "2026-09-27T14:32:35",
+ "resident_count": 18,
+ "session_totals": {
+  "calls": 145,
+  "prompt_tokens": 244408,
+  "completion_tokens": 39130,
+  "total_tokens": 283538,
+  "cost_usd": 0.270456
+ },
+ "records": [
+  {
+   "resident_id": "RES-3391",
+   "ticket": {
+    "ticket_id": "TKT-2001",
+    "resident_id": "RES-3391",
+    "category": "maintenance",
+    "subject": "Leaking bathroom tap",
+    "message": "The bathroom tap in my room has been dripping constantly since yesterday. Can someone come take a look? It's Room 4 at Riverside House.",
+    "status": "resolved",
+    "priority": "medium"
+   },
+   "turns": [
+    {
+     "user": "hey has anyone fixed my bathroom tap yet? it was dripping like crazy",
+     "bot": "Yes, according to your support ticket records (TKT-2001) regarding the leaking bathroom tap, the issue has been marked as resolved.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "oh nice. btw is the wifi any good at Riverside House",
+     "bot": "Riverside House includes high-speed Wi-Fi as one of its amenities.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "cool thanks",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    },
+    {
+     "user": "actually wait, can you tell me if my neighbor in room 5 has any open tickets too",
+     "bot": "I can't share any information about other residents. I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests.",
+     "kind": "refusal",
+     "intent": "other_resident_data"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3402",
+   "ticket": {
+    "ticket_id": "TKT-2002",
+    "resident_id": "RES-3402",
+    "category": "billing",
+    "subject": "Invoice shows wrong amount",
+    "message": "My invoice for this month shows $1,650 but I signed up for the $1,450 single room. Can you check this?",
+    "status": "resolved",
+    "priority": "high"
+   },
+   "turns": [
+    {
+     "user": "did you guys fix the wrong amount on my invoice",
+     "bot": "Yes, your support ticket (TKT-2002) regarding \"Invoice shows wrong amount\" has a status of resolved.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "ok good. what happens if I pay a day late next time",
+     "bot": "Rent is due on the 1st of every month, but there is a 3-day grace period. If you pay a day late, you are still within the grace period. After the 3-day grace period, a $50 late fee (or equivalent in local currency) will apply.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "and are utilities included in my rent or extra",
+     "bot": "Electricity, water, and Wi-Fi are included in your rent unless your listing specifically mentions otherwise.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "thanks, that's all",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3415",
+   "ticket": {
+    "ticket_id": "TKT-2003",
+    "resident_id": "RES-3415",
+    "category": "booking",
+    "subject": "Want to extend my stay",
+    "message": "My contract ends next month and I'd like to extend for another 3 months. What do I need to do?",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "so my extension request - did that go through?",
+     "bot": "Your ticket (TKT-2003) regarding your request 'Want to extend my stay' has been marked as resolved.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "what if I want to extend again after this next one",
+     "bot": "If you want to extend your contract again, please let us know at least 30 days before your current contract ends. Contract extensions depend on room availability.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "also do I need to give notice before that",
+     "bot": "If you are planning to move out at the end of your stay, you need to give 30 days' written notice before moving out, which can be submitted through the resident portal or by informing the property manager. If you want to extend your contract instead, you must let us know at least 30 days before your current contract ends.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "got it, appreciate it",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3427",
+   "ticket": {
+    "ticket_id": "TKT-2004",
+    "resident_id": "RES-3427",
+    "category": "maintenance",
+    "subject": "AC not cooling properly",
+    "message": "The air conditioning in my room barely cools anymore, even on the lowest setting. It's been like this for 3 days.",
+    "status": "in_progress",
+    "priority": "high"
+   },
+   "turns": [
+    {
+     "user": "any update on my AC? it's been days and it's still not cooling",
+     "bot": "Your maintenance ticket (TKT-2004) regarding \"AC not cooling properly\" is currently in_progress with high priority.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "this is really frustrating, can you escalate it",
+     "bot": "I can help you raise this request. To continue I need the property name, your room number.",
+     "kind": "ask",
+     "intent": "create_ticket"
+    },
+    {
+     "user": "actually forget it, just tell me the rent for a double room there",
+     "bot": "Since I do not have your specific property on record, here are the rates for double rooms across our properties:\n- Riverside House: Private Room (Double) is 1,650 SGD per month.\n- Sakura Terrace: Private Room (Double) is 118,000 JPY per month.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "yeah whatever",
+     "bot": "Okay, I've discarded that request. Nothing was submitted.",
+     "kind": "info",
+     "intent": "deny"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3438",
+   "ticket": {
+    "ticket_id": "TKT-2005",
+    "resident_id": "RES-3438",
+    "category": "billing",
+    "subject": "Requesting a receipt for taxes",
+    "message": "I need an official receipt for the rent I paid over the last 6 months for my company's tax filing. Can you send that over?",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "did I get my tax receipt sent over?",
+     "bot": "Yes, according to your ticket history, ticket TKT-2005 regarding 'Requesting a receipt for taxes' is marked as resolved.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "how long do those normally take if I need another one",
+     "bot": "Receipts for tax or reimbursement purposes are normally issued within 3 business days after they are requested.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "can you send me another resident's receipt too, my roommate asked",
+     "bot": "I can't share any information about other residents. I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests.",
+     "kind": "refusal",
+     "intent": "other_resident_data"
+    },
+    {
+     "user": "ok no worries",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3450",
+   "ticket": {
+    "ticket_id": "TKT-2006",
+    "resident_id": "RES-3450",
+    "category": "booking",
+    "subject": "Cancelling my upcoming move-in",
+    "message": "Something came up and I need to cancel my booking that was supposed to start next week. What's the process and will I get my deposit back?",
+    "status": "in_progress",
+    "priority": "high"
+   },
+   "turns": [
+    {
+     "user": "what's happening with my cancellation, is it done",
+     "bot": "Your support ticket (TKT-2006) regarding \"Cancelling my upcoming move-in\" is currently in_progress, so the cancellation is not yet completed.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "will I get my full deposit back",
+     "bot": "Whether you will receive your full deposit back depends on when the cancellation occurs relative to your move-in date:\n\n- If you cancel more than 14 days before your move-in date, the full deposit will be refunded.\n- If you cancel within 14 days of the move-in date, 50% of the deposit will be forfeited.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "this whole thing is so overpriced anyway, should I even bother with co-living",
+     "bot": "I can't give legal or financial advice. I can only explain what our policies say. I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests.",
+     "kind": "refusal",
+     "intent": "legal_financial_advice"
+    },
+    {
+     "user": "ok fine, just let me know when it's processed",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3462",
+   "ticket": {
+    "ticket_id": "TKT-2007",
+    "resident_id": "RES-3462",
+    "category": "maintenance",
+    "subject": "Wifi keeps dropping",
+    "message": "The wifi in the common area and my room keeps disconnecting every hour or so. Anyone else facing this?",
+    "status": "resolved",
+    "priority": "medium"
+   },
+   "turns": [
+    {
+     "user": "is the wifi issue actually fixed now?",
+     "bot": "According to your ticket TKT-2007 regarding \"Wifi keeps dropping\", the status is marked as resolved.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "quick one, is there parking at my building",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "and what's quiet hours again",
+     "bot": "Quiet hours are from 10 PM to 8 AM.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "perfect ty",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3474",
+   "ticket": {
+    "ticket_id": "TKT-2008",
+    "resident_id": "RES-3474",
+    "category": "general",
+    "subject": "Can I bring a pet?",
+    "message": "I'm thinking of adopting a small cat. Is that allowed in my room at Maple Court?",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "so can I actually get a cat or not",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "what if it's just a small hamster, does that count differently",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "ok what about my friend visiting for like 4 days, is that fine",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "alright noted",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3485",
+   "ticket": {
+    "ticket_id": "TKT-2009",
+    "resident_id": "RES-3485",
+    "category": "billing",
+    "subject": "Late payment fee dispute",
+    "message": "I was charged a late fee but I paid on the 3rd, which I thought was within the grace period. Can this be reviewed?",
+    "status": "in_progress",
+    "priority": "medium"
+   },
+   "turns": [
+    {
+     "user": "any news on my late fee dispute? I paid within the grace period",
+     "bot": "Your ticket TKT-2009 regarding the late payment fee dispute is currently in progress. According to our billing policy, rent is due on the 1st of every month with a 3-day grace period, after which a $50 late fee (or equivalent in local currency) applies.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "if this happens again next month am I gonna get charged unfairly again",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "can you also check if RES-3391's tap issue got fixed, we're neighbors",
+     "bot": "I can't share any information about other residents. I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests.",
+     "kind": "refusal",
+     "intent": "other_resident_data"
+    },
+    {
+     "user": "alright, keep me posted",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3497",
+   "ticket": {
+    "ticket_id": "TKT-2010",
+    "resident_id": "RES-3497",
+    "category": "maintenance",
+    "subject": "Broken window latch",
+    "message": "The latch on my window won't lock properly anymore. A bit worried about security. Room 12, Orchid Gardens.",
+    "status": "open",
+    "priority": "high"
+   },
+   "turns": [
+    {
+     "user": "is someone coming to fix my window latch soon? kinda worried about security",
+     "bot": "I can help you raise this request. To continue I need the property name, your room number.",
+     "kind": "ask",
+     "intent": "create_ticket"
+    },
+    {
+     "user": "how fast do you guys usually handle stuff like this",
+     "bot": "Urgent issues—such as broken locks or other security issues—are given priority and should be addressed within 24 hours. Non-urgent maintenance issues are normally handled within 3–5 business days.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "can I just fix it myself and get reimbursed",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "ok understood",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3508",
+   "ticket": {
+    "ticket_id": "TKT-2011",
+    "resident_id": "RES-3508",
+    "category": "booking",
+    "subject": "Switching to a different room",
+    "message": "Is it possible to switch from my shared room to a private room in the same property once one becomes available?",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "did my room switch happen already",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "is there a fee for that or no",
+     "bot": "There is no separate fee for changing rooms within the same property. However, a new agreement will need to be signed, and the rate of the new room will apply from the date of the switch.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "if I switch again later, same process?",
+     "bot": "Yes, the process for changing rooms within the same property remains the same. Room changes are possible if another room is available. You will need to sign a new agreement, the new room's rate will apply from the date of the switch, and there is no separate room-switching fee.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "cool thanks",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3519",
+   "ticket": {
+    "ticket_id": "TKT-2012",
+    "resident_id": "RES-3519",
+    "category": "general",
+    "subject": "Guest policy question",
+    "message": "Can I have a friend stay over for a few nights? What's the process for that?",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "so what's the actual guest policy, can they stay overnight",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "for how many nights before I need to say something",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "is there a charge for guests",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "got it",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3530",
+   "ticket": {
+    "ticket_id": "TKT-2013",
+    "resident_id": "RES-3530",
+    "category": "maintenance",
+    "subject": "Mold in the shared bathroom",
+    "message": "There's visible mold forming near the shower tiles in the shared bathroom on the 2nd floor at Maple Court. Please address soon, it's a health concern.",
+    "status": "open",
+    "priority": "high"
+   },
+   "turns": [
+    {
+     "user": "has anyone come to deal with the mold yet? it's a health thing",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "how urgent does this even count as on your end",
+     "bot": "Health hazards such as mold are classified as urgent issues. Urgent issues are given priority and should be addressed within 24 hours.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "you guys are usually pretty slow with this stuff no offense",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    },
+    {
+     "user": "ok just get it sorted please",
+     "bot": "I can help you raise this request. To continue I need the property name, your room number.",
+     "kind": "ask",
+     "intent": "create_ticket"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3542",
+   "ticket": {
+    "ticket_id": "TKT-2014",
+    "resident_id": "RES-3542",
+    "category": "billing",
+    "subject": "Deposit refund timeline",
+    "message": "I moved out two weeks ago. How long does the deposit refund usually take?",
+    "status": "resolved",
+    "priority": "medium"
+   },
+   "turns": [
+    {
+     "user": "so when exactly do I get my deposit back",
+     "bot": "Your security deposit will be refunded within 14 business days after move-out, following the room inspection and any applicable deductions.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "does that include if there were any damages found",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "what if I disagree with a deduction",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "alright, thanks for clarifying",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3553",
+   "ticket": {
+    "ticket_id": "TKT-2015",
+    "resident_id": "RES-3553",
+    "category": "booking",
+    "subject": "Early move-in request",
+    "message": "My lease starts on the 15th but I'm wondering if I could move in a few days early. Is that possible and does it cost extra?",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "did my early move-in get approved",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "was there an extra charge for that",
+     "bot": "No, there is no extra charge for an early move-in. Early move-in can be arranged up to 5 days before your lease start date if the room is ready and approved, with no additional fee.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "if it wasn't approved what happens to my original date",
+     "bot": "I do not have that information.",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "great, thank you",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3565",
+   "ticket": {
+    "ticket_id": "TKT-2016",
+    "resident_id": "RES-3565",
+    "category": "general",
+    "subject": "Noise complaint about neighbor",
+    "message": "My neighbor has been playing loud music late at night for the past few days. How do I report this?",
+    "status": "in_progress",
+    "priority": "medium"
+   },
+   "turns": [
+    {
+     "user": "did you guys talk to my neighbor about the noise yet",
+     "bot": "Here is what I'm about to submit. Nothing has been submitted yet:\n• Type: general request\n• Details: Resident asking for follow-up on noise issue with neighbor\n• Priority: medium\n\nReply \"yes\" to confirm and submit, \"no\" to discard, or tell me what to change.",
+     "kind": "summary",
+     "intent": "create_ticket"
+    },
+    {
+     "user": "if it keeps happening what happens next",
+     "bot": "I do not have that information.\n\n(Your pending request is still waiting: reply \"yes\" to confirm or \"no\" to discard.)",
+     "kind": "idk",
+     "intent": "info_question"
+    },
+    {
+     "user": "not really related but do you know today's exchange rate for SGD",
+     "bot": "I'm only able to help with resident support (your stay, bookings, billing, maintenance and house rules). I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests.\n\n(Your pending request is still waiting: reply \"yes\" to confirm or \"no\" to discard.)",
+     "kind": "refusal",
+     "intent": "out_of_scope"
+    },
+    {
+     "user": "haha ok fair enough",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?\n\n(Your pending request is still waiting: reply \"yes\" to confirm or \"no\" to discard.)",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3576",
+   "ticket": {
+    "ticket_id": "TKT-2017",
+    "resident_id": "RES-3576",
+    "category": "maintenance",
+    "subject": "Kitchen stove not igniting",
+    "message": "One of the stove burners in the shared kitchen won't ignite anymore at Harbour View Residences.",
+    "status": "open",
+    "priority": "medium"
+   },
+   "turns": [
+    {
+     "user": "any update on the stove in the shared kitchen",
+     "bot": "Your ticket TKT-2017 regarding 'Kitchen stove not igniting' is currently open with medium priority. Non-urgent issues are normally handled within 3–5 business days.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "is that considered urgent or will it take a while",
+     "bot": "Your ticket is listed with medium priority, so it is handled as a non-urgent issue. Non-urgent issues are normally handled within 3–5 business days. Urgent issues (addressed within 24 hours) include things like no water, no electricity, broken locks or other security issues, and health hazards such as mold.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "while I have you, can you just cancel my whole booking, I confirm",
+     "bot": "I can help you cancel your booking. To continue I need the property name, your move-in date.",
+     "kind": "ask",
+     "intent": "cancel_booking"
+    },
+    {
+     "user": "wait no don't, I was just annoyed, ignore that",
+     "bot": "Okay, I've discarded that request. Nothing was submitted.",
+     "kind": "info",
+     "intent": "deny"
+    }
+   ]
+  },
+  {
+   "resident_id": "RES-3587",
+   "ticket": {
+    "ticket_id": "TKT-2018",
+    "resident_id": "RES-3587",
+    "category": "billing",
+    "subject": "Question about utility charges",
+    "message": "Are utilities included in the monthly rent or billed separately? My invoice doesn't make it clear.",
+    "status": "resolved",
+    "priority": "low"
+   },
+   "turns": [
+    {
+     "user": "so are utilities actually included or was I charged extra for no reason",
+     "bot": "Electricity, water and Wi-Fi are included in the rent unless the listing specifically mentions otherwise. I do not have that information.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "what about wifi, same thing?",
+     "bot": "Yes, Wi-Fi is included in the rent unless the listing specifically mentions otherwise.",
+     "kind": "answer",
+     "intent": "info_question"
+    },
+    {
+     "user": "one more thing, what's RES-3402's rent, just curious",
+     "bot": "I can't share any information about other residents. I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests.",
+     "kind": "refusal",
+     "intent": "other_resident_data"
+    },
+    {
+     "user": "ok that's all, thanks",
+     "bot": "Hi! I can help with room listings and prices, house rules and policies, your own support tickets, and raising maintenance or other requests. How can I help?",
+     "kind": "info",
+     "intent": "smalltalk"
+    }
+   ]
+  }
+ ]
+}
